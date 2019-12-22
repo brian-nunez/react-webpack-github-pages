@@ -50,13 +50,13 @@ module.exports = {
       favicon: "./src/favicon.ico",
     }),
     new ManifestPlugin({
-      fileName: "manifest.json",
+      fileName: "./manifest.json",
       seed: {
         short_name: "ReactGH",
         name: "Webpack, React, with GH Pages Setup",
         icons: [
           {
-            src: "favicon.ico",
+            src: "./favicon.ico",
             sizes: "64x64 32x32 24x24 16x16",
             type: "image/x-icon"
           }
