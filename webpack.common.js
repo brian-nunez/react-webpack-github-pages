@@ -1,9 +1,10 @@
+const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: ["./src/index.js", "./src/styles.css"],
   optimization: {
     usedExports: true
   },
@@ -15,16 +16,14 @@ module.exports = {
         use: ["babel-loader"]
       },
       {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: './dist',
-            },
-          },
-          'css-loader'
-        ],
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.html$/,
@@ -37,7 +36,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"]
+    extensions: ["*", ".js", ".jsx", ".css", ".scss"]
   },
   output: {
     path: __dirname + "/dist",
@@ -48,11 +47,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html",
-      favicon: "./src/favicon.ico"
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      favicon: "./src/favicon.ico",
     }),
     new ManifestPlugin({
       fileName: "manifest.json",
@@ -71,6 +66,20 @@ module.exports = {
         theme_color: "#000000",
         background_color: "#ffffff"
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ],
+  devServer: {
+    contentBase: "./dist",
+    hot: true,
+    port: 3000,
+    compress: true,
+    historyApiFallback: true,
+    before: function(app, server) {
+      app.disable("x-powered-by");
+    }
+  }
 };
