@@ -10,7 +10,7 @@
     "build": "webpack --config webpack.prod.js",
     "setup": "npm ci && npm start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d build"
   },
   "babel": {
     "presets": [
