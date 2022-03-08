@@ -1,13 +1,23 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import App from "../App";
-import About from "../components/About";
-import NotFound from "../components/NotFound";
+import React, { useMemo } from 'react';
+import { Router, LocationProvider, createHistory } from '@reach/router';
+import App from '../App';
+import About from '../components/About';
+import NotFound from '../components/NotFound';
 
-export default () => (
-  <Switch>
-    <Route exact path="/" component={App} />
-    <Route path="/about" component={About} />
-    <Route component={NotFound} />
-  </Switch>
-);
+export default function Routes() {
+  const history = useMemo(() => createHistory(window), []);
+
+  return (
+    <React.Suspense fallback={(<div>Loading...</div>)}>
+      <LocationProvider history={history}>
+        {({ location }) => (
+          <Router basepath="/" location={location}>
+            <App path="/" />
+            <About path="/about" />
+            <NotFound default />
+          </Router>
+        )}
+    </LocationProvider>
+  </React.Suspense>
+  );
+}

@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
@@ -49,7 +49,7 @@ module.exports = {
       filename: "./index.html",
       favicon: "./src/favicon.ico",
     }),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: "./manifest.json",
       seed: {
         short_name: "ReactGH",
@@ -73,13 +73,9 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: "./build",
     hot: true,
     port: 3000,
     compress: true,
     historyApiFallback: true,
-    before: function(app, server) {
-      app.disable("x-powered-by");
-    }
   }
 };

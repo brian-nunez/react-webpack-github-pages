@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "@reach/router";
 
 export default () => {
   const [seconds, setSeconds] = useState(7);
